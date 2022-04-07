@@ -19,5 +19,6 @@ public class UpdateCommand implements Command {
             documentLines.set(lineNumber, text);
         else
             documentLines.add(text);
+
     }
 }

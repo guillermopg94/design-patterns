@@ -1,20 +1,23 @@
 package com.kreitek.editor;
 
+
+import com.kreitek.editor.commands.UndoCommand;
+import com.kreitek.editor.memento.EditorCaretaker;
+
 public class Application {
-   public static EditorFactory editorFactory = new EditorFactory();
-    public static EditorCaretaker editorCaretaker = new EditorCaretaker();
-    public static Editor editor = editorFactory.getEditor();
-    public static Editor editorJSON = new EditorDecorator(new ConsoleEditor());
+
     public static void main(String[] args) {
+         EditorFactory editorFactory = new EditorFactory();
+         EditorCaretaker editorCaretaker = new EditorCaretaker();
+         Editor editor = editorFactory.getEditor();
+         UndoCommand undo = new UndoCommand();
 
-        editorCaretaker.push(editor.getState());
-if (args[0].equals("json")){
-    editorJSON.run();
-}else{
-    editor.run();
+         editor.run();
+         editorCaretaker.push(editor.getState());
+         
+         if (undo.undoSelected){
+            editor.restore(editorCaretaker.pop());
+        }
+
 }
-
-
-    }
-
 }

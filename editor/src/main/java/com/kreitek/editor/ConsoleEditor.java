@@ -1,6 +1,7 @@
 package com.kreitek.editor;
 
 import com.kreitek.editor.commands.CommandFactory;
+import com.kreitek.editor.memento.Memento;
 
 import java.util.*;
 
@@ -32,6 +33,7 @@ public class ConsoleEditor implements Editor {
                 exit = true;
             }
             showDocumentLines(documentLines);
+
             showHelp();
         }
     }
@@ -86,7 +88,6 @@ public class ConsoleEditor implements Editor {
     public void restore(Memento memento){
         if(memento != null){
             documentLines = (ArrayList<String>) memento.getState().get("state");
-
         }else{
             run();
         }

@@ -1,5 +1,7 @@
 package com.kreitek.editor;
 
+import com.kreitek.editor.memento.Memento;
+
 public interface Editor {
     void run();
 

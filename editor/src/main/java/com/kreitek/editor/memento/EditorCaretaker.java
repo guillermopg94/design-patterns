@@ -1,13 +1,12 @@
-package com.kreitek.editor;
+package com.kreitek.editor.memento;
 
-import com.kreitek.editor.Command;
-import com.kreitek.editor.Memento;
+import com.kreitek.editor.memento.Memento;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditorCaretaker{
-    List<Memento> mementos = new ArrayList<>();
+    private List<Memento> mementos = new ArrayList<>();
     public void push (Memento memento){
         mementos.add(memento);
     }
@@ -20,6 +19,4 @@ public Memento pop(){
     }
     return null;
 }
-
-
 }

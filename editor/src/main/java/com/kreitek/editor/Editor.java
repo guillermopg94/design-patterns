@@ -3,7 +3,7 @@ package com.kreitek.editor;
 import com.kreitek.editor.memento.Memento;
 
 public interface Editor {
-    void run();
+    void run(String[] args);
 
     Memento getState();
 

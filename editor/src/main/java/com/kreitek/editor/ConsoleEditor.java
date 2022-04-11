@@ -1,6 +1,8 @@
 package com.kreitek.editor;
 
 import com.kreitek.editor.commands.CommandFactory;
+import com.kreitek.editor.display.Display;
+import com.kreitek.editor.display.DisplayVisitor;
 import com.kreitek.editor.memento.Memento;
 
 import java.util.*;
@@ -18,9 +20,9 @@ public class ConsoleEditor implements Editor {
 
     private final CommandFactory commandFactory = new CommandFactory();
     private ArrayList<String> documentLines = new ArrayList<String>();
-
+    DisplayVisitor visitor = new Display();
     @Override
-    public void run() {
+    public void run(String[] args) {
         boolean exit = false;
         while (!exit) {
             String commandLine = waitForNewCommand();
@@ -32,27 +34,18 @@ public class ConsoleEditor implements Editor {
             } catch (ExitException e) {
                 exit = true;
             }
-            showDocumentLines(documentLines);
+
+            showDocumentLines(this, args);
 
             showHelp();
         }
     }
+public <documentLines> ArrayList<String> getDocumentLines(){
+        return documentLines;
+    }
+    private ArrayList<String> showDocumentLines(ConsoleEditor consoleEditor, String[] args) {
 
-    private void showDocumentLines(ArrayList<String> textLines) {
-        if (textLines.size() > 0){
-            setTextColor(TEXT_YELLOW);
-            printLnToConsole("START DOCUMENT ==>");
-            for (int index = 0; index < textLines.size(); index++) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("[");
-                stringBuilder.append(index);
-                stringBuilder.append("] ");
-                stringBuilder.append(textLines.get(index));
-                printLnToConsole(stringBuilder.toString());
-            }
-            printLnToConsole("<== END DOCUMENT");
-            setTextColor(TEXT_RESET);
-        }
+        return visitor.visit(consoleEditor, args);
     }
 
     private String waitForNewCommand() {
@@ -88,8 +81,6 @@ public class ConsoleEditor implements Editor {
     public void restore(Memento memento){
         if(memento != null){
             documentLines = (ArrayList<String>) memento.getState().get("state");
-        }else{
-            run();
         }
     }
     public Memento getState(){

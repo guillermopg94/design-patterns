@@ -12,9 +12,9 @@ public class Application {
          Editor editor = editorFactory.getEditor();
          UndoCommand undo = new UndoCommand();
 
-         editor.run();
+         editor.run(args);
          editorCaretaker.push(editor.getState());
-         
+
          if (undo.undoSelected){
             editor.restore(editorCaretaker.pop());
         }
